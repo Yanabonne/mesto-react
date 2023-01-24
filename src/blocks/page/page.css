@@ -1,0 +1,8 @@
+.page {
+  background-color: black;
+  font-family: "Inter", "Arial";
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}

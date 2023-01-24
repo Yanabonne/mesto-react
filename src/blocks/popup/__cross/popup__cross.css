@@ -1,0 +1,12 @@
+.popup__cross {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__cross {
+    width: 20px;
+    height: 20px;
+  }
+}

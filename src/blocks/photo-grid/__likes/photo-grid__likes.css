@@ -1,0 +1,6 @@
+.photo-grid__likes {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0 20px 0 0;
+}
