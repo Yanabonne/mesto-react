@@ -1,0 +1,10 @@
+.photo-grid__like {
+  margin: 0;
+  height: 19px;
+  width: 22px;
+  transition: opacity 1s ease;
+}
+
+.photo-grid__like:hover {
+  opacity: 0.5;
+}

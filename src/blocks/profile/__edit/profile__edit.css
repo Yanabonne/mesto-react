@@ -1,0 +1,13 @@
+.profile__edit {
+  margin: 0;
+  transition: opacity 1s ease;
+  font-size: 0;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.profile__edit:hover {
+  opacity: 0.6;
+}

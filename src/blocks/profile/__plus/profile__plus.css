@@ -1,0 +1,21 @@
+.profile__plus {
+  margin: 0;
+  padding: 14px 64px;
+  border: 2px solid #ffffff;
+  border-radius: 2px;
+  width: 22px;
+  height: 22px;
+}
+
+@media screen and (max-width: 800px) {
+  .profile__plus {
+    padding: 17px 132px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .profile__plus {
+    width: 16px;
+    height: 16px;
+  }
+}
