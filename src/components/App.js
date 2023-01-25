@@ -47,8 +47,8 @@ function App() {
               id="popup-name"
               name="name"
               required
-              minlength="2"
-              maxlength="40"
+              minLength="2"
+              maxLength="40"
               value="Жак-Ив Кусто"
               placeholder="Имя"
             />
@@ -59,8 +59,8 @@ function App() {
               id="popup-description"
               name="description"
               required
-              minlength="2"
-              maxlength="200"
+              minLength="2"
+              maxLength="200"
               value="Исследователь океана"
               placeholder="О себе"
             />
@@ -74,8 +74,8 @@ function App() {
               name="mesto"
               placeholder="Название"
               required
-              minlength="2"
-              maxlength="30"
+              minLength="2"
+              maxLength="30"
             />
             <span className="form__input-error popup-mesto-name-error"></span>
             <input
@@ -96,8 +96,8 @@ function App() {
               name="mesto"
               placeholder="Название"
               required
-              minlength="2"
-              maxlength="30"
+              minLength="2"
+              maxLength="30"
             />
             <span className="form__input-error popup-mesto-name-error"></span>
             <input

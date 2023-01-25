@@ -5,10 +5,10 @@ import plusButton from '../images/plus-button.svg';
 import api from '../utils/api.js';
 import Card from './Card.js';
 
-function Main(props) {
-    const [userName, setUserName] = React.useState();
-    const [userDescription, setuserDescription] = React.useState();
-    const [userAvatar, setuserAvatar] = React.useState();
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
+    const [userName, setUserName] = React.useState('');
+    const [userDescription, setuserDescription] = React.useState('');
+    const [userAvatar, setuserAvatar] = React.useState('');
     const [cards, setCards] = React.useState([]);
 
     api.getUserInfo()
@@ -33,7 +33,7 @@ function Main(props) {
           <div className="profile__info">
             <div className="profile__avatar">
               <img className="profile__picture" src={userAvatar} alt="Фотография профиля" />
-              <button type="button" className="profile__edit-avatar" onClick={props.onEditAvatar}>
+              <button type="button" className="profile__edit-avatar" onClick={onEditAvatar}>
                 <img
                   className="profile__pen-edit-avatar"
                   src={editPen}
@@ -49,7 +49,7 @@ function Main(props) {
                     className="profile__pen"
                     src={editPen}
                     alt="Иконка ручки"
-                    onClick={props.onEditProfile}
+                    onClick={onEditProfile}
                   />
                 </button>
               </div>
@@ -61,7 +61,7 @@ function Main(props) {
               className="profile__plus"
               src={plusButton}
               alt="Иконка плюса"
-              onClick={props.onAddPlace}
+              onClick={onAddPlace}
             />
           </button>
         </section>
@@ -70,7 +70,7 @@ function Main(props) {
           aria-label="Секция с фотографиями"
         >
             {cards.reverse().map(card => (
-                <Card card={card} key={card._id} onCardClick={props.onCardClick} />
+                <Card card={card} key={card._id} onCardClick={onCardClick} />
             ))}
         </section>
       </main>
