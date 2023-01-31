@@ -1,6 +1,6 @@
 import closeButton from '../images/close.svg';
 
-function PopupWithForm({isOpen, name, onClose, title, children, buttonText}) {
+function PopupWithForm({isOpen, name, onClose, title, children, buttonText, onSubmit}) {
   return (
       <div className={`${isOpen ? "popup popup_opened" : "popup"}`} id={`popup-${name}`}>
         <div className="popup__container">
@@ -11,10 +11,10 @@ function PopupWithForm({isOpen, name, onClose, title, children, buttonText}) {
               alt="Крестик"
             />
           </button>
-          <form className="form" id="form-delete" name={`${name}`}>
+          <form className="form" id="form-delete" name={`${name}`} onSubmit={onSubmit} >
             <h2 className="form__title form__title_delete">{`${title}`}</h2>
-            {children};
-            <button type="button" className="form__submit">{`${buttonText}`}</button>
+            {children}
+            <button type="submit" className="form__submit">{`${buttonText}`}</button>
           </form>
         </div>
       </div>

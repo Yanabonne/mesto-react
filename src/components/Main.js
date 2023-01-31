@@ -1,38 +1,19 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import editPen from '../images/edit-pen.svg';
 import plusButton from '../images/plus-button.svg';
-import api from '../utils/api.js';
 import Card from './Card.js';
+import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
-function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
-    const [userName, setUserName] = React.useState('');
-    const [userDescription, setuserDescription] = React.useState('');
-    const [userAvatar, setuserAvatar] = React.useState('');
-    const [cards, setCards] = React.useState([]);
-
-    api.getUserInfo()
-    .then((userData) => {
-        setUserName(userData.name);
-        setuserDescription(userData.about);
-        setuserAvatar(userData.avatar);
-    })
-    .catch((err) => console.log(err));
-
-    useEffect (() => {
-        api.getInitialCards()
-    .then((initialCards) => {
-        setCards(initialCards);
-    })
-    .catch((err) => console.log(err));
-    }, [])
+function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick, cards, onCardLike, onCardDelete}) {
+    const currentUser = React.useContext(CurrentUserContext);
 
     return (
         <main className="content">
         <section className="profile">
           <div className="profile__info">
             <div className="profile__avatar">
-              <img className="profile__picture" src={userAvatar} alt="Фотография профиля" />
+              <img className="profile__picture" src={currentUser.avatar} alt="Фотография профиля" />
               <button type="button" className="profile__edit-avatar" onClick={onEditAvatar}>
                 <img
                   className="profile__pen-edit-avatar"
@@ -43,7 +24,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
             </div>
             <div className="profile__personal">
               <div className="profile__name-edit">
-                <h1 className="profile__name">{userName}</h1>
+                <h1 className="profile__name">{currentUser.name}</h1>
                 <button type="button" className="profile__edit">
                   <img
                     className="profile__pen"
@@ -53,7 +34,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
                   />
                 </button>
               </div>
-              <p className="profile__description">{userDescription}</p>
+              <p className="profile__description">{currentUser.about}</p>
             </div>
           </div>
           <button type="button" className="profile__add-button">
@@ -70,7 +51,7 @@ function Main({onEditAvatar, onEditProfile, onAddPlace, onCardClick}) {
           aria-label="Секция с фотографиями"
         >
             {cards.reverse().map(card => (
-                <Card card={card} key={card._id} onCardClick={onCardClick} />
+                <Card card={card} key={card._id} onCardDelete={onCardDelete} onCardClick={onCardClick} onCardLike={onCardLike} />
             ))}
         </section>
       </main>
