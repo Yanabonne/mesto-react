@@ -47,6 +47,9 @@ function App() {
 
     api.setCardLikeStatus(card._id, isLiked).then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+    .catch((err) => {
+      console.log(err);
     });
   }
 
@@ -54,7 +57,7 @@ function App() {
     api
     .deleteCard(card._id)
     .then(() => {
-      setCards(cards.filter(item => {return item._id !== card._id}))
+      setCards(prevCards => prevCards.filter(item => {return item._id !== card._id}))
     })
     .catch((err) => {
       console.log(err);

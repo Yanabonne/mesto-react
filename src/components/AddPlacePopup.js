@@ -14,6 +14,11 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
         });
     }
 
+    React.useEffect (() => {
+        nameRef.current.value = '';
+        linkRef.current.value = '';
+    }, [isOpen]);
+
     return (
         <PopupWithForm title="Новое место" name="mesto" buttonText="Создать" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} >
           <input
