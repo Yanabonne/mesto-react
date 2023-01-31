@@ -114,7 +114,7 @@ function App() {
         setCurrentUser(userData);
     })
     .catch((err) => console.log(err));
-  });
+  }, []);
 
   return (
     <div className="page">
