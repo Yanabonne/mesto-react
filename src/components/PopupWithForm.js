@@ -11,7 +11,7 @@ function PopupWithForm({isOpen, name, onClose, title, children, buttonText, onSu
               alt="Крестик"
             />
           </button>
-          <form className="form" id="form-delete" name={`${name}`} onSubmit={onSubmit} >
+          <form className="form" id={`form-${name}`} name={`${name}`} onSubmit={onSubmit} >
             <h2 className="form__title form__title_delete">{`${title}`}</h2>
             {children}
             <button type="submit" className="form__submit">{`${buttonText}`}</button>

@@ -3,31 +3,55 @@ import React from 'react';
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
-import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
+import ConfirmCardDeletePopup from './ConfirmCardDeletePopup.js';
 import ImagePopup from './ImagePopup.js';
+import {FormValidator} from '../utils/FormValidator.js';
 import api from '../utils/api.js';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
+import {validationObject} from '../utils/constants.js';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
+  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState([]);
   const [cards, setCards] = React.useState([]);
+  const [currentCard, setCurrentCard] = React.useState({});
+
+  const formValidatorProfile = new FormValidator(
+    validationObject,
+    document.querySelector("#form-profile")
+  );
+  const formValidatorMesto = new FormValidator(
+    validationObject, 
+    document.querySelector("#form-mesto")
+  );
+  const formValidatorProfileImage = new FormValidator(
+    validationObject,
+    document.querySelector("#form-profile-image")
+  );
 
   function handleEditAvatarClick() {
+    formValidatorProfileImage.enableValidation();
     setIsEditAvatarPopupOpen(true);
   }
   function handleEditProfileClick() {
-      setIsEditProfilePopupOpen(true);
+    formValidatorProfile.enableValidation();
+    setIsEditProfilePopupOpen(true);
   }
   function handleAddPlaceClick() {
-      setIsAddPlacePopupOpen(true);
+    formValidatorMesto.enableValidation();
+    setIsAddPlacePopupOpen(true);
+  }
+  function handleDeleteCardClick(card) {
+    setIsConfirmationPopupOpen(true);
+    setCurrentCard(card);
   }
 
   function closeAllPopups() {
@@ -35,6 +59,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsConfirmationPopupOpen(false);
   }
 
   function handleCardClick(card) {
@@ -53,11 +78,13 @@ function App() {
     });
   }
 
-  function handleCardDelete (card) {
+  function handleCardDelete () {
     api
-    .deleteCard(card._id)
+    .deleteCard(currentCard._id)
     .then(() => {
-      setCards(prevCards => prevCards.filter(item => {return item._id !== card._id}))
+      setCards(prevCards => prevCards.filter(item => {return item._id !== currentCard._id}));
+      closeAllPopups();
+      setCurrentCard({});
     })
     .catch((err) => {
       console.log(err);
@@ -103,6 +130,12 @@ function App() {
     })
   }
 
+  function handleClosePopup (evt) {
+    if (evt.key === "Escape" || evt.target.classList.contains("popup")) {
+      closeAllPopups();
+    }
+  }
+
   React.useEffect (() => {
     api.getInitialCards()
     .then((initialCards) => {
@@ -120,16 +153,17 @@ function App() {
   }, []);
 
   return (
-    <div className="page">
+    <div className="page" onKeyDown={handleClosePopup} onClick={handleClosePopup} >
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main onEditAvatar={handleEditAvatarClick} onCardDelete={handleCardDelete} onCardLike={handleCardLike} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} cards={cards} />
+        <Main onEditAvatar={handleEditAvatarClick} onCardDelete={handleDeleteCardClick} onCardLike={handleCardLike} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick} cards={cards} />
         <Footer />
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
         <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
-        <PopupWithForm title="Вы уверены?" name="delete" buttonText="Да" ></PopupWithForm>
+        <ConfirmCardDeletePopup isOpen={isConfirmationPopupOpen} onClose={closeAllPopups} onDeleteCard={handleCardDelete} />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} isOpen={isImagePopupOpen} />
+        {/* <ValidateForms /> */}
       </CurrentUserContext.Provider>
     </div>
   );
